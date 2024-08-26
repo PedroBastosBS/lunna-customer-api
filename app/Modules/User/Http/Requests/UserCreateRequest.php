@@ -3,7 +3,6 @@
 namespace App\Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UserCreateRequest extends FormRequest
 {
@@ -28,12 +27,6 @@ class UserCreateRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users',
             'phone' => 'required',
-            'document' => [
-                        'sometimes',
-                        'numeric',
-                        'cpf',
-                        Rule::unique('users', 'cpf'),
-                    ],
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
         ];
@@ -48,8 +41,6 @@ class UserCreateRequest extends FormRequest
     {
         return [
             'name.required' => 'Nome é obrigatório',
-            'document.cpf' => 'Documento é obrigatório',
-            'document.unique' => 'Documento já existe !',
             'email.required' => 'Email é obrigatório',
             'email.unique'=> 'Email já existe !',
             'phone.required' => 'Celular é obrigatório',
@@ -64,11 +55,6 @@ class UserCreateRequest extends FormRequest
         if ($this->has('phone')) {
             $this->merge(['phone' => preg_replace('/[^0-9]/', '', $this->get('phone'))]);
         }
-
-        if ($this->has('document')) {
-            $this->merge(['document' => preg_replace('/[^0-9]/', '', $this->get('document'))]);
-        }
-
         if ($this->has('email')) {
             $this->merge(['email' => strtolower($this->get('email'))]);
         }

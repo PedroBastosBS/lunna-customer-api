@@ -15,7 +15,6 @@ return new class extends Migration
             $table->integer('type')->nullable()->comment('1 - usuario_cliente; 2 - usuario_anunciante');
             $table->string('instagram')->nullable();
             $table->string('facebook')->nullable();
-            $table->integer('address_id')->nullable();
         });
     }
 

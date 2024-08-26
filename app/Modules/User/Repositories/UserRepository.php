@@ -20,4 +20,15 @@ class UserRepository
             'confirm_password' => bcrypt($user->passwordConfirmation),
         ]);
     }
+
+    public function completeRegistration(int $id, UserDTO $userDTO): User
+    {
+        $user = $this->user->find($id);
+        $user->type = $userDTO->type;
+        $user->document = $userDTO->document;
+        $user->instagram = $userDTO->instagram;
+        $user->facebook = $userDTO->facebook;
+        $user->save();
+        return $user;
+    }
 }

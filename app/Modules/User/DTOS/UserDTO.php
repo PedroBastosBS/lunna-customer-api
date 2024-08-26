@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 
 final class UserDTO
 {
-    public string $name;
-    public string $email;
-    public string $phone;
+    public null|string $name = null;
+    public null|string $email = null;
+    public null|string $phone = null;
     public null|string $document = null;
-    public string $password;
-    public string $passwordConfirmation;
+    public null|int $type = null;
+    public null|string $instagram = null;
+    public null|string $facebook = null;
+    public null|string $password = null;
+    public null|string $passwordConfirmation = null;
 
     public static function  new(
         Request $request
@@ -24,8 +27,11 @@ final class UserDTO
         $dto->email = $request->get('email');
         $dto->phone = $request->get('phone');
         $dto->document = $request->get('document');
+        $dto->type = $request->get('type');
+        $dto->instagram = $request->get('instagram');
+        $dto->facebook = $request->get('facebook');
         $dto->password = $request->get('password');
-        $dto->passwordConfirmation =$request->get('password_confirmation');
+        $dto->passwordConfirmation = $request->get('password_confirmation');
         return $dto;
     }
 }
