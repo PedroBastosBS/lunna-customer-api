@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\User\DTOS;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 final class UserDTO
 {
@@ -12,6 +13,7 @@ final class UserDTO
     public null|string $email = null;
     public null|string $phone = null;
     public null|string $document = null;
+    public null|UploadedFile $profile = null;
     public null|int $type = null;
     public null|string $instagram = null;
     public null|string $facebook = null;
@@ -27,6 +29,7 @@ final class UserDTO
         $dto->email = $request->get('email');
         $dto->phone = $request->get('phone');
         $dto->document = $request->get('document');
+        $dto->profile = $request->file('profile');
         $dto->type = $request->get('type');
         $dto->instagram = $request->get('instagram');
         $dto->facebook = $request->get('facebook');

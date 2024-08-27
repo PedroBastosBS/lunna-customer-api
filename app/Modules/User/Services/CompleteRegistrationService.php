@@ -26,14 +26,18 @@ class CompleteRegistrationService implements CompleteRegistrationUseCase
     }
     public function execute(
         int $id, 
-        UserDTO $user, 
+        UserDTO $userDTO, 
         AddressDTO $addressDTO, 
         null|BrokerDTO $brokerDTO
     ): string 
     {
-        $user = $this->userRepository->completeRegistration($id, $user);
-        $this->addressRepository->save($addressDTO);
-        if($user->type === UserTypeEnum::ADVERTISER->value) {
+        $user = $this->userRepository->completeRegistration($id, $userDTO);
+        $broker = $this->brokerRepository->findBrokerByUserId($id);
+        $address = $this->addressRepository->findAddressByUserId($id);
+        if(empty($address)) {
+            $this->addressRepository->save($addressDTO);
+        }
+        if($user->type === UserTypeEnum::ADVERTISER->value && empty($broker)) {
             $this->brokerRepository->save($brokerDTO);
         }
 

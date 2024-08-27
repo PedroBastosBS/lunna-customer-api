@@ -29,7 +29,7 @@ class CompleteResgistrationRequest extends FormRequest
             'document' => [
                 'required',
                 'string',
-                'regex:/^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/', 
+                'regex:/^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/'
             ],
             'street' => 'required',
             'district' => 'required',
@@ -46,7 +46,8 @@ class CompleteResgistrationRequest extends FormRequest
                 'string',
                 'regex:/^\d{1,5}[FJ]\/[A-Z]{2}$/'
             ],
-            'description' => 'sometimes|required|string'
+            'description' => 'sometimes|required|string',
+            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
     
@@ -73,7 +74,10 @@ class CompleteResgistrationRequest extends FormRequest
             'creci.required' => 'Campo é obrigatório',
             'creci.regex' => 'CRECI informado é inválido!',
             'description.required' => 'Campo é obrigatório',
-            'description.string' => 'Campo deve ser um texto !'
+            'description.string' => 'Campo deve ser um texto !',
+            'profile.image' => 'O arquivo deve ser uma imagem',
+            'profile.mimes' => 'A imagem deve ser do tipo JPEG, PNG, JPG ou GIF',
+            'profile.max' => 'A imagem é muito grande. Tamanho máximo permitido é de 2MB'
         ];
     }
 

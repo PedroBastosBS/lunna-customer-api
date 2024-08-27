@@ -20,4 +20,9 @@ class BrokerRepository
             'description' => $brokerDTO->description,
         ]);
     }
+
+    public function findBrokerByUserId(int $userId): null|Broker
+    {
+        return $this->broker->where('user_id', $userId)->first();
+    }
 }

@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Modules\User\Repositories;
 
+use App\Models\Broker;
 use App\Models\User;
 use App\Modules\User\DTOS\UserDTO;
+use App\Modules\User\Enums\UserTypeEnum;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository
 {
@@ -25,10 +28,22 @@ class UserRepository
     {
         $user = $this->user->find($id);
         $user->type = $userDTO->type;
-        $user->document = $userDTO->document;
+        $user->document = preg_replace('/\D/', '', $userDTO->document);
         $user->instagram = $userDTO->instagram;
         $user->facebook = $userDTO->facebook;
+        $user->profile = $userDTO->profile;
         $user->save();
         return $user;
+    }
+
+    public function showTopAdvertisers(): Collection
+    {
+        return $this->user->from('users as u')
+            ->join('brokers as b', 'b.user_id', 'u.id')
+            ->where('u.type', UserTypeEnum::ADVERTISER->value)
+            ->select(['u.name as name', 'b.description', 'b.rating'])
+            ->orderBy('b.rating', 'DESC')
+            ->limit(6)
+            ->get();
     }
 }
