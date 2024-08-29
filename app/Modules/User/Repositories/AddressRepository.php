@@ -25,7 +25,7 @@ class AddressRepository
         ]);
     }
 
-    public function findAddressByUserId(int $userId): null|Address
+    public function findAddressByUserId(int $userId): ?Address
     {
         return $this->address->where('user_id', $userId)->first();
     }

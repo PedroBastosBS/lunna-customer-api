@@ -10,5 +10,5 @@ use App\Modules\User\DTOS\UserDTO;
 
 interface CompleteRegistrationUseCase
 {
-    public function execute(int $id, UserDTO $user, AddressDTO $addressDTO, null|BrokerDTO $brokerDTO): string;
+    public function execute(int $id, UserDTO $user, AddressDTO $addressDTO, ?BrokerDTO $brokerDTO): string;
 }

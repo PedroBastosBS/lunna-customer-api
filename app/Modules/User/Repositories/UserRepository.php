@@ -7,13 +7,16 @@ use App\Models\Broker;
 use App\Models\User;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\UserTypeEnum;
+use App\Modules\User\ExternalServices\AwsS3Manager;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository
 {
-    public function __construct(private User $user)
+
+    public function __construct(private User $user, private AwsS3Manager $awsS3Manager)
     {
         $this->user = $user;
+        $this->awsS3Manager = $awsS3Manager;
     }
     public function save(UserDTO $user): User
     {
@@ -31,7 +34,7 @@ class UserRepository
         $user->document = preg_replace('/\D/', '', $userDTO->document);
         $user->instagram = $userDTO->instagram;
         $user->facebook = $userDTO->facebook;
-        $user->profile = $userDTO->profile;
+        $user->profile = $this->awsS3Manager->upload($userDTO->profile);
         $user->save();
         return $user;
     }
@@ -41,7 +44,7 @@ class UserRepository
         return $this->user->from('users as u')
             ->join('brokers as b', 'b.user_id', 'u.id')
             ->where('u.type', UserTypeEnum::ADVERTISER->value)
-            ->select(['u.name as name', 'b.description', 'b.rating'])
+            ->select(['u.name as name', 'u.profile', 'b.description', 'b.rating'])
             ->orderBy('b.rating', 'DESC')
             ->limit(6)
             ->get();

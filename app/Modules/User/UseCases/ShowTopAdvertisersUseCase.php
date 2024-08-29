@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Modules\User\UseCases;
 
-use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Collection;
 interface ShowTopAdvertisersUseCase
 {
     public function execute(): Collection;

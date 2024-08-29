@@ -14,7 +14,7 @@ final class AddressDTO
     public string $city;
     public string $state;
     public int $userId;
-    public null|string $complement = null;
+    public ?string $complement = null;
 
     public static function  new(
         int $userId,

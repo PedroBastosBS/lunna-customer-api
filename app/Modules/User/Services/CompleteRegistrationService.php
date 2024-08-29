@@ -28,7 +28,7 @@ class CompleteRegistrationService implements CompleteRegistrationUseCase
         int $id, 
         UserDTO $userDTO, 
         AddressDTO $addressDTO, 
-        null|BrokerDTO $brokerDTO
+        ?BrokerDTO $brokerDTO
     ): string 
     {
         $user = $this->userRepository->completeRegistration($id, $userDTO);

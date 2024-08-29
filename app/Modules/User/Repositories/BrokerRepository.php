@@ -21,7 +21,7 @@ class BrokerRepository
         ]);
     }
 
-    public function findBrokerByUserId(int $userId): null|Broker
+    public function findBrokerByUserId(int $userId): ?Broker
     {
         return $this->broker->where('user_id', $userId)->first();
     }
