@@ -29,7 +29,8 @@ class CompleteResgistrationRequest extends FormRequest
             'document' => [
                 'required',
                 'string',
-                'regex:/^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/'
+                'regex:/^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/',
+                'unique:users,document,' . auth()->id(),
             ],
             'street' => 'required',
             'district' => 'required',

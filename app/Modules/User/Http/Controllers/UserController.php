@@ -39,7 +39,7 @@ class UserController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    public function completeRegistration(Request $request, int $id): JsonResponse
+    public function completeRegistration(CompleteResgistrationRequest $request, int $id): JsonResponse
     {
         try {
             return response()->json($this->completeRegistrationUseCase->execute(
