@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Modules\User\Repositories;
 
-use App\Models\Broker;
 use App\Models\User;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\UserTypeEnum;
@@ -26,7 +25,10 @@ class UserRepository
             'confirm_password' => bcrypt($user->passwordConfirmation),
         ]);
     }
-
+    public function findUserByEmail(string $email): ?User
+    {
+        return $this->user->where('email', $email)->first();
+    }
     public function completeRegistration(int $id, UserDTO $userDTO): User
     {
         $user = $this->user->find($id);
@@ -38,7 +40,6 @@ class UserRepository
         $user->save();
         return $user;
     }
-
     public function showTopAdvertisers(): Collection
     {
         return $this->user->from('users as u')

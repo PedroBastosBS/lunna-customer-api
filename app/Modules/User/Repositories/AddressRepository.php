@@ -24,7 +24,6 @@ class AddressRepository
             'user_id' => $addressDTO->userId,
         ]);
     }
-
     public function findAddressByUserId(int $userId): ?Address
     {
         return $this->address->where('user_id', $userId)->first();

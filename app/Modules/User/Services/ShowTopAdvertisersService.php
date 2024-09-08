@@ -7,7 +7,6 @@ use App\Modules\User\DTOS\ShowTopAdvertisersPresentationDTO;
 use App\Modules\User\Repositories\UserRepository;
 use App\Modules\User\UseCases\ShowTopAdvertisersUseCase;
 use Illuminate\Support\Collection;
-
 class ShowTopAdvertisersService implements ShowTopAdvertisersUseCase
 {
     public function __construct(
