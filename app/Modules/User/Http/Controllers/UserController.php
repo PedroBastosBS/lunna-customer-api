@@ -64,7 +64,7 @@ class UserController extends Controller
     public function resetPasswordNotification(PasswordResetRequest $request): JsonResponse
     {
         try {
-            return response()->json([$this->userService->resetPasswordNotification($request->get('email'))], Response::HTTP_OK);
+            return response()->json(['message' => $this->userService->resetPasswordNotification($request->get('email'))], Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
