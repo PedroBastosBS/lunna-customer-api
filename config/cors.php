@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['auth/*', 'api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'auth/*'],
 
     'allowed_methods' => ['*'],
 
@@ -23,7 +23,7 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['Origin', 'Content-Type', 'Authorization', 'X-User-Agent'],
 
     'exposed_headers' => [],
 
