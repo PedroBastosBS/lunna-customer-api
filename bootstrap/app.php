@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->append(\App\Modules\User\Http\Middlewares\Cors::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
