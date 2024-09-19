@@ -1,5 +1,6 @@
 <?php
 
+use App\Modules\User\Http\Middlewares\Cors;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-        $middleware->append(\App\Modules\User\Http\Middlewares\Cors::class);
+        $middleware->pushMiddleware(Cors::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
