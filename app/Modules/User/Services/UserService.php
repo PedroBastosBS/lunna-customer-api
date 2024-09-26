@@ -5,6 +5,7 @@ namespace App\Modules\User\Services;
 
 use App\Mail\PasswordResetMail;
 use App\Models\User;
+use App\Modules\User\DTOS\DataProfileDTO;
 use App\Modules\User\DTOS\ResetPasswordDTO;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\UserInteractionMessagesEnum;
@@ -70,12 +71,12 @@ class UserService
         return UserInteractionMessagesEnum::PASSWORD_SUCCESS_RESET->value;
     }
 
-    public function findUserById(int $id): ?User
+    public function findUserById(int $id): ?DataProfileDTO
     {
         $user = $this->userRepository->findUserById($id);
         if(empty($user)) {
             throw new Exception('Usuário não foi encontrado.');
         }
-        return $user;
+        return UserMapper::toDataProfilePresentation($user);
     }
 }
