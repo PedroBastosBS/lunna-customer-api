@@ -16,9 +16,9 @@ return [
     */
     'paths' => ['api/'],
     'allowed_methods' => ['POST', 'GET', 'OPTIONS', 'PUT'],
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://localhost:3000'],
     'allowed_origins_patterns' => [],
-    'allowed_headers' => ['Content-Type', 'Authorization'],
+    'allowed_headers' => ['Origin, Content-Type, Authorization, X-User-Agent, Accept'],
     'exposed_headers' => [],
     'max_age' => 86400,
     'supports_credentials' => false,
