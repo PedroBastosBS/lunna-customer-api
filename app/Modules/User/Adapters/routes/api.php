@@ -11,4 +11,5 @@ Route::post('/reset', [UserController::class, 'passwordReset']);
 Route::get('/top-brokers', [UserController::class, 'showTopAdvertisers']);
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/finalization/{id}', [UserController::class, 'completeRegistration']);
+    Route::get('{id}', [UserController::class, 'findUserById']);
 });

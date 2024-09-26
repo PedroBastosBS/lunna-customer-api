@@ -3,6 +3,8 @@
 namespace App\Modules\Auth\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
+use App\Modules\Auth\Mappers\AuthMapper;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -28,12 +30,15 @@ class AuthController extends Controller
     }
     public function me()
     {
-        $user = auth()->user();
-        return response()->json([
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-        ]);
+        try{ 
+            $user = auth()->user();
+        if(empty($user)){
+            throw new Exception('Nenhum usuário esta autenticado!');
+        }
+        return response()->json(AuthMapper::fromUserToUserAuthDTO($user), Response::HTTP_OK););
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()],Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function refresh()
