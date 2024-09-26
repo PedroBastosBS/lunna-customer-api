@@ -82,20 +82,21 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
+       'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL'),
-            'host' => env('ep-dry-cherry-a4uad6yz.us-east-1.aws.neon.tech'),
-            'port' => env('5432'),
-            'database' => env('lunna'),
-            'username' => env('lunna_owner'),
-            'password' => env('EP7qa6iMlJAe'),
-            'charset' => env('DB_CHARSET', 'utf8'),
+            'url' => env('DB_URL'), // Opcional, se você tiver uma URL completa de conexão
+            'host' => env('DB_HOST', 'ep-dry-cherry-a4uad6yz.us-east-1.aws.neon.tech'), // Corrigido
+            'port' => env('DB_PORT', '5432'), // Corrigido
+            'database' => env('DB_DATABASE', 'lunna'), // Corrigido
+            'username' => env('DB_USERNAME', 'lunna_owner'), // Corrigido
+            'password' => env('DB_PASSWORD', 'EP7qa6iMlJAe'), // Corrigido
+            'charset' => env('DB_CHARSET', 'utf8'), // Corrigido
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'prefer',
+            'sslmode' => env('DB_SSLMODE', 'prefer'), // Corrigido
         ],
+
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',

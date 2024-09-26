@@ -35,7 +35,7 @@ class AuthController extends Controller
         if(empty($user)){
             throw new Exception('Nenhum usuário esta autenticado!');
         }
-        return response()->json(AuthMapper::fromUserToUserAuthDTO($user), Response::HTTP_OK););
+        return response()->json(AuthMapper::fromUserToUserAuthDTO($user), Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()],Response::HTTP_INTERNAL_SERVER_ERROR);
         }

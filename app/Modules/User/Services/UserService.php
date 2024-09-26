@@ -11,6 +11,7 @@ use App\Modules\User\Enums\UserInteractionMessagesEnum;
 use App\Modules\User\Exceptions\PasswordNotMatchException;
 use App\Modules\User\Exceptions\TokenExpirationOrInvalidException;
 use App\Modules\User\Exceptions\UserNotFoundException;
+use App\Modules\User\Mappers\UserMapper;
 use App\Modules\User\Repositories\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\Mail;
@@ -22,9 +23,10 @@ class UserService
     {
         $this->userRepository = $userRepository;
     }
-    public function save(UserDTO $user): User
+    public function save(UserDTO $user): UserMapper
     {
-        return $this->userRepository->save($user);
+        $user = $this->userRepository->save($user);
+        return UserMapper::toPresentation($user);
     }
 
     public function resetPasswordNotification(string $email): string
