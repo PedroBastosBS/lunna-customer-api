@@ -79,4 +79,9 @@ class UserService
         }
         return UserMapper::toDataProfilePresentation($user);
     }
+
+    public function rating(int $id, string $score): void
+    {
+    
+    }
 }

@@ -14,13 +14,12 @@ return [
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
     */
-    'paths' => ['api/*'],
-    'allowed_methods' => ['POST', 'GET', 'OPTIONS'],
+    'paths' => ['api/'],
+    'allowed_methods' => ['POST', 'GET', 'OPTIONS', 'PUT'],
     'allowed_origins' => ['*'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['Content-Type', 'Authorization'],
     'exposed_headers' => [],
     'max_age' => 86400,
-    'supports_credentials' => true,
     'supports_credentials' => false,
 ];
