@@ -12,6 +12,7 @@ use App\Modules\User\Exceptions\PasswordNotMatchException;
 use App\Modules\User\Exceptions\TokenExpirationOrInvalidException;
 use App\Modules\User\Exceptions\UserNotFoundException;
 use App\Modules\User\Repositories\UserRepository;
+use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
@@ -65,5 +66,14 @@ class UserService
             throw TokenExpirationOrInvalidException::new();
         }
         return UserInteractionMessagesEnum::PASSWORD_SUCCESS_RESET->value;
+    }
+
+    public function findUserById(int $id): ?User
+    {
+        $user = $this->userRepository->findUserById($id);
+        if(empty($user)) {
+            throw new Exception('Usuário não foi encontrado.');
+        }
+        return $user;
     }
 }

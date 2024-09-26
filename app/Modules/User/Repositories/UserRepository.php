@@ -29,6 +29,10 @@ class UserRepository
     {
         return $this->user->where('email', $email)->first();
     }
+    public function findUserById(int $id): ?User
+    {
+        return $this->user->where('id', $id)->first();
+    }
     public function completeRegistration(int $id, UserDTO $userDTO): User
     {
         $user = $this->user->find($id);

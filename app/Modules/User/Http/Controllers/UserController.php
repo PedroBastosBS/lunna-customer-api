@@ -71,7 +71,7 @@ class UserController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    public function passwordReset(PasswordResetRequest $request) 
+    public function passwordReset(PasswordResetRequest $request): JsonResponse
     {
         try {
             return response()->json($this->userService->resetPassword(ResetPasswordDTO::new($request)), Response::HTTP_OK);
@@ -83,6 +83,15 @@ class UserController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function findUserById(int $id): JsonResponse
+    {
+        try {
+            return response()->json($this->userService->findUserById($id), Response::HTTP_OK);
+        } catch(UserNotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 }
