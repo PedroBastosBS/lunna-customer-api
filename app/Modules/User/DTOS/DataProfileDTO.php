@@ -10,6 +10,7 @@ final class DataProfileDTO
     public string $email;
     public string $phone;
     public string $description;
+    public string $registration_completed;
     public ?string $rating = null;
     public ?string $profile = null;
 

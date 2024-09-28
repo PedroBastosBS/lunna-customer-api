@@ -6,6 +6,7 @@ namespace App\Modules\User\Services;
 use App\Modules\User\DTOS\AddressDTO;
 use App\Modules\User\DTOS\BrokerDTO;
 use App\Modules\User\DTOS\UserDTO;
+use App\Modules\User\Enums\RegistrationCompletedEnum;
 use App\Modules\User\Enums\UserTypeEnum;
 use App\Modules\User\Repositories\AddressRepository;
 use App\Modules\User\Repositories\BrokerRepository;
@@ -41,7 +42,9 @@ class CompleteRegistrationService implements CompleteRegistrationUseCase
             $this->brokerRepository->save($brokerDTO);
         }
 
-        return "Cadastro finalizado com sucesso !";
+        $this->userRepository->profileFinalization($user->id);
+
+        return RegistrationCompletedEnum::MESSAGE_REGISTRATION_COMPLETED->value;
     }
 }
 

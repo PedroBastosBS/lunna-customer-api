@@ -32,6 +32,7 @@ final class UserMapper
         $dto->phone = $user->phone;
         $dto->description = $user->description;
         $dto->rating = $user->rating;
+        $dto->registration_completed = $user->registration_completed;
         $dto->profile = $awsS3Manager->preSignUrl($user->profile);
         return $dto;
     }

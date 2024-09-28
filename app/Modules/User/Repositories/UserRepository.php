@@ -5,6 +5,7 @@ namespace App\Modules\User\Repositories;
 
 use App\Models\User;
 use App\Modules\User\DTOS\UserDTO;
+use App\Modules\User\Enums\RegistrationCompletedEnum;
 use App\Modules\User\Enums\UserTypeEnum;
 use App\Modules\User\ExternalServices\AwsS3Manager;
 use Illuminate\Database\Eloquent\Collection;
@@ -33,7 +34,7 @@ class UserRepository
     {
         return $this->user->from('brokers as br')
                     ->join('users as u', 'u.id', 'br.user_id')
-                    ->select('u.name', 'br.description', 'br.rating', 'u.phone', 'u.email', 'u.instagram', 'u.profile')
+                    ->select('u.name', 'br.description', 'br.rating', 'u.phone', 'u.email', 'u.instagram', 'u.profile', 'u.registration_completed')
                     ->where('u.id', $id)->first();
     }
     public function completeRegistration(int $id, UserDTO $userDTO): User
@@ -56,5 +57,9 @@ class UserRepository
             ->orderBy('b.rating', 'DESC')
             ->limit(6)
             ->get();
+    }
+    public function profileFinalization(int $id): void
+    {
+        $this->user->where('id', $id)->update(['registration_completed' => RegistrationCompletedEnum::COMPLETED->value]);
     }
 }

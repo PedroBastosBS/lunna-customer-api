@@ -12,7 +12,9 @@ use App\Modules\User\Exceptions\TokenExpirationOrInvalidException;
 use App\Modules\User\Exceptions\UserNotFoundException;
 use App\Modules\User\Http\Requests\CompleteResgistrationRequest;
 use App\Modules\User\Http\Requests\PasswordResetRequest;
+use App\Modules\User\Http\Requests\RatingUpdateRequest;
 use App\Modules\User\Http\Requests\UserCreateRequest;
+use App\Modules\User\Services\BrokerRatingService;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\UseCases\CompleteRegistrationUseCase;
 use App\Modules\User\UseCases\ShowTopAdvertisersUseCase;
@@ -23,13 +25,14 @@ class UserController extends Controller
     public function __construct(
         private UserService $userService, 
         private CompleteRegistrationUseCase $completeRegistrationUseCase,
-        private ShowTopAdvertisersUseCase $showTopAdvertisersUseCase
+        private ShowTopAdvertisersUseCase $showTopAdvertisersUseCase,
+        private BrokerRatingService $brokerRatingService,
         )
     {
         $this->userService = $userService;
         $this->completeRegistrationUseCase = $completeRegistrationUseCase;
         $this->showTopAdvertisersUseCase = $showTopAdvertisersUseCase;
-
+        $this->brokerRatingService = $brokerRatingService;
     }
 
     public function save(UserCreateRequest $request): JsonResponse
@@ -90,6 +93,16 @@ class UserController extends Controller
     {
         try {
             return response()->json($this->userService->findUserById($id), Response::HTTP_OK);
+        } catch(UserNotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function ratingUpdate(RatingUpdateRequest $request, int $userId)
+    {
+        try {
+            $this->brokerRatingService->execute($userId, $request->get('rating'));
+            return response()->json(null, Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
