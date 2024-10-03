@@ -42,7 +42,6 @@ class CompleteResgistrationRequest extends FormRequest
             ],
             'creci' => [
                 'sometimes',
-                'required',
                 'string',
                 'regex:/^\d{1,5}[FJ]\/[A-Z]{2}$/'
             ],
