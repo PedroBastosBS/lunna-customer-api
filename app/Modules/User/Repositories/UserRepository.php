@@ -32,10 +32,12 @@ class UserRepository
     }
     public function findUserById(int $id): ?User
     {
-        return $this->user->from('brokers as br')
-                    ->join('users as u', 'u.id', 'br.user_id')
+        return $this->user->from('users as u')
+                    ->leftJoin('brokers as br', 'u.id', '=', 'br.user_id')
                     ->select('u.name', 'br.description', 'br.rating', 'u.phone', 'u.email', 'u.instagram', 'u.profile', 'u.registration_completed')
-                    ->where('u.id', $id)->first();
+                    ->where('u.id', $id)
+                    ->first();
+                
     }
     public function completeRegistration(int $id, UserDTO $userDTO): User
     {
