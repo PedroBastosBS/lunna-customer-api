@@ -13,7 +13,7 @@ return [
     |
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
-    
+    */
     'paths' => ['*'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['*'],
@@ -22,5 +22,5 @@ return [
     'exposed_headers' => [],
     'max_age' => 86400,
     'supports_credentials' => false,
-    */
+    
 ];
