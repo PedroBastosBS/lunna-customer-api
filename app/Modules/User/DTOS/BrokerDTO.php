@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 final class BrokerDTO
 {
     public int $userId;
-    public ?int $realStateId;
-    public string $creci;
-    public string $description;
+    public ?int $realStateId = null;
+    public ?string $creci = null;
+    public ?string $description = null;
 
     public static function  new(
         int $userId,
