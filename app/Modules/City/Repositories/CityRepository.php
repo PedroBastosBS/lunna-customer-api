@@ -3,6 +3,7 @@
 namespace App\Modules\City\Repositories;
 
 use App\Models\City;
+use App\Modules\State\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Collection;
 
 class CityRepository
@@ -17,6 +18,7 @@ class CityRepository
     {
         return $this->city->select(['id', 'name'])
                     ->where('state_id', $stateId)
+                    ->where('status', StatusEnum::ACTIVE->value)
                     ->orderBy('name', 'ASC')
                     ->get();
     }
