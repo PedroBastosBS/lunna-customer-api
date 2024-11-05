@@ -24,4 +24,12 @@ class CityController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    public function getDistrictsByCityId(int $cityId): JsonResponse
+    {
+        try {
+            return response()->json($this->cityService->getDistrictsByCityId($cityId), Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

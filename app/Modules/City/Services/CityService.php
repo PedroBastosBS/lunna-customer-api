@@ -19,4 +19,8 @@ class CityService
     {
         return $this->cityRepository->getCitiesByState($stateId);
     }
+    public function getDistrictsByCityId(int $cityId): Collection
+    {
+        return $this->cityRepository->getDistrictsByCityId($cityId);
+    }
 }
