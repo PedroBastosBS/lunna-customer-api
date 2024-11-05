@@ -98,11 +98,19 @@ class UserController extends Controller
         }
     }
 
-    public function ratingUpdate(RatingUpdateRequest $request, int $userId)
+    public function ratingUpdate(RatingUpdateRequest $request, int $userId): JsonResponse
     {
         try {
             $this->brokerRatingService->execute($userId, $request->get('rating'));
             return response()->json(null, Response::HTTP_OK);
+        } catch(UserNotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
+    }
+    public function findAdvertisersByProperty(int $userId): JsonResponse
+    {
+        try {
+            return response()->json($this->userService->findAdvertisersByProperty($userId), Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }

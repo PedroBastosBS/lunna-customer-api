@@ -6,6 +6,7 @@ namespace App\Modules\User\Services;
 use App\Mail\PasswordResetMail;
 use App\Models\User;
 use App\Modules\User\DTOS\DataProfileDTO;
+use App\Modules\User\DTOS\PropertyAdvertisersDTO;
 use App\Modules\User\DTOS\ResetPasswordDTO;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\UserInteractionMessagesEnum;
@@ -78,5 +79,14 @@ class UserService
             throw new Exception('Usuário não foi encontrado.');
         }
         return UserMapper::toDataProfilePresentation($user);
+    }
+    public function findAdvertisersByProperty(int $id): ?PropertyAdvertisersDTO
+    {
+        $user = $this->userRepository->findUserById($id);
+        if(empty($user)) {
+            throw new Exception('Usuário não foi encontrado.');
+        }
+    
+        return PropertyAdvertisersDTO::new($user);
     }
 }

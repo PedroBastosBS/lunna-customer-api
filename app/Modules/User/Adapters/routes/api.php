@@ -14,3 +14,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('rating/{userId}', [UserController::class, 'ratingUpdate']);
     Route::get('{id}', [UserController::class, 'findUserById']);
 });
+
+Route::get('/advertisers/{userId}', [UserController::class, 'findAdvertisersByProperty']);
