@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AuthWithApiKey;
 use App\Modules\User\Http\Middlewares\Cors;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
        $middleware->append(Cors::class);
+       $middleware->append(AuthWithApiKey::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
             
