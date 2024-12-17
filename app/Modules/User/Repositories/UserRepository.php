@@ -34,7 +34,7 @@ class UserRepository
     {
         return $this->user->from('users as u')
                     ->leftJoin('brokers as br', 'u.id', '=', 'br.user_id')
-                    ->select('u.name', 'br.description', 'br.rating', 'u.phone', 'u.email', 'u.instagram', 'u.profile', 'u.registration_completed')
+                    ->select('u.name','u.facebook', 'u.document','br.description', 'br.rating', 'u.phone', 'u.email', 'u.instagram', 'u.profile', 'u.registration_completed')
                     ->where('u.id', $id)
                     ->first();
                 

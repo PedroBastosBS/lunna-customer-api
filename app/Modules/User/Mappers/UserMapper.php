@@ -30,9 +30,12 @@ final class UserMapper
         $dto->name = $user->name;
         $dto->email = $user->email;
         $dto->phone = $user->phone;
+        $dto->document = $user->document;
         $dto->description = $user->description;
         $dto->rating = $user->rating;
         $dto->registration_completed = $user->registration_completed;
+        $dto->instagram = $user->instagram;
+        $dto->facebook = $user->facebook;
         $dto->profile = $awsS3Manager->preSignUrl($user->profile);
         return $dto;
     }
