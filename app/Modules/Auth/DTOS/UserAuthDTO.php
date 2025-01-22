@@ -9,4 +9,5 @@ class UserAuthDTO
     public string $email;
     public ?string $profile = null;
     public string $registration_completed;
+    public string $type;
 }

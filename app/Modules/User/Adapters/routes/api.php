@@ -10,6 +10,8 @@ Route::post('/reset-password', [UserController::class, 'resetPasswordNotificatio
 Route::post('/reset', [UserController::class, 'passwordReset']);
 
 Route::get('/top-brokers', [UserController::class, 'showTopAdvertisers']);
+Route::get('{id}', [UserController::class, 'findUserById']);
+
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/finalization/{id}', [UserController::class, 'completeRegistration']);
     Route::put('rating/{userId}', [UserController::class, 'ratingUpdate']);
