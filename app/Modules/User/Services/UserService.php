@@ -10,20 +10,24 @@ use App\Modules\User\DTOS\PropertyAdvertisersDTO;
 use App\Modules\User\DTOS\ResetPasswordDTO;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\UserInteractionMessagesEnum;
+use App\Modules\User\Enums\UserTypeEnum;
 use App\Modules\User\Exceptions\PasswordNotMatchException;
 use App\Modules\User\Exceptions\TokenExpirationOrInvalidException;
 use App\Modules\User\Exceptions\UserNotFoundException;
 use App\Modules\User\Mappers\UserMapper;
 use App\Modules\User\Repositories\UserRepository;
+use App\Modules\User\Repositories\BrokerRepository;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 class UserService
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository, BrokerRepository $brokerRepository)
     {
         $this->userRepository = $userRepository;
+        $this->brokerRepository = $brokerRepository;
+
     }
     public function save(UserDTO $user): UserMapper
     {
@@ -88,5 +92,15 @@ class UserService
         }
     
         return PropertyAdvertisersDTO::new($user);
+    }
+
+    public function update(int $id, UserDTO $user, ?string $description): void
+    {
+        if($user->type == UserTypeEnum::CLIENT->value) {
+            $this->userRepository->update($id, $user);
+        } else {
+            $this->userRepository->update($id, $user);
+            $this->brokerRepository->update($id, $description);
+        }
     }
 }

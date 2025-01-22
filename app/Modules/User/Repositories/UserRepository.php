@@ -64,4 +64,15 @@ class UserRepository
     {
         $this->user->where('id', $id)->update(['registration_completed' => RegistrationCompletedEnum::COMPLETED->value]);
     }
+    public function update(int $id, UserDTO $userDTO): void
+    {
+        $this->user->where('id', $id)->update([
+            'name' => $userDTO->name,
+           'email' => $userDTO->email,
+           'phone' => $userDTO->phone,
+           'profile' => $userDTO->profile,
+           'instagram' => $userDTO->instagram,
+           'facebook' => $userDTO->facebook,
+        ]);
+    }
 }

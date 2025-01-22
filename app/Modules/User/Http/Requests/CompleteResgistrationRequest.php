@@ -43,7 +43,6 @@ class CompleteResgistrationRequest extends FormRequest
             'creci' => [
                 'sometimes',
                 'string',
-                'regex:/^\d{1,5}[FJ]\/[A-Z]{2}$/'
             ],
             'description' => 'sometimes|required|string',
             'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'

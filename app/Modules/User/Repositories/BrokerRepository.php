@@ -29,4 +29,9 @@ class BrokerRepository
     {
         $this->broker->where('user_id', $userId)->update(['rating' => $rating]);
     }
+
+    public function update(int $userId, ?string $description): void
+    {
+        $this->broker->where('user_id', $userId)->update(['description' => $description]);
+    }
 }

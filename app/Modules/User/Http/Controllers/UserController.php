@@ -20,6 +20,8 @@ use App\Modules\User\UseCases\CompleteRegistrationUseCase;
 use App\Modules\User\UseCases\ShowTopAdvertisersUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+
 class UserController extends Controller
 {
     public function __construct(
@@ -111,6 +113,14 @@ class UserController extends Controller
     {
         try {
             return response()->json($this->userService->findAdvertisersByProperty($userId), Response::HTTP_OK);
+        } catch(UserNotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
+    }
+    public function update(Request $request, int $id): JsonResponse
+    {
+        try {
+            return response()->json($this->userService->update($id, UserDTO::new($request),$request->get('description')), Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
