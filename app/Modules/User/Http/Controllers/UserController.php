@@ -6,6 +6,7 @@ namespace App\Modules\User\Http\Controllers;
 use App\Modules\User\DTOS\AddressDTO;
 use App\Modules\User\DTOS\BrokerDTO;
 use App\Modules\User\DTOS\ResetPasswordDTO;
+use App\Modules\User\DTOS\UpdateFormatDataDTO;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Exceptions\PasswordNotMatchException;
 use App\Modules\User\Exceptions\TokenExpirationOrInvalidException;
@@ -120,7 +121,7 @@ class UserController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         try {
-            return response()->json($this->userService->update($id, UserDTO::new($request),$request->get('description')), Response::HTTP_OK);
+            return response()->json($this->userService->update($id, UpdateFormatDataDTO::new($request),$request->get('description')), Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }

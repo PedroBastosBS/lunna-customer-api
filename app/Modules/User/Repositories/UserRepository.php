@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Modules\User\Repositories;
 
 use App\Models\User;
+use App\Modules\User\DTOS\UpdateFormatDataDTO;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\RegistrationCompletedEnum;
 use App\Modules\User\Enums\UserTypeEnum;
@@ -64,13 +65,13 @@ class UserRepository
     {
         $this->user->where('id', $id)->update(['registration_completed' => RegistrationCompletedEnum::COMPLETED->value]);
     }
-    public function update(int $id, UserDTO $userDTO): void
+    public function update(int $id, UpdateFormatDataDTO $userDTO): void
     {
         $this->user->where('id', $id)->update([
             'name' => $userDTO->name,
            'email' => $userDTO->email,
            'phone' => $userDTO->phone,
-           'profile' => $userDTO->profile,
+           'profile' =>  $this->awsS3Manager->upload($userDTO->profile),
            'instagram' => $userDTO->instagram,
            'facebook' => $userDTO->facebook,
         ]);

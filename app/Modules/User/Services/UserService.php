@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Modules\User\DTOS\DataProfileDTO;
 use App\Modules\User\DTOS\PropertyAdvertisersDTO;
 use App\Modules\User\DTOS\ResetPasswordDTO;
+use App\Modules\User\DTOS\UpdateFormatDataDTO;
 use App\Modules\User\DTOS\UserDTO;
 use App\Modules\User\Enums\UserInteractionMessagesEnum;
 use App\Modules\User\Enums\UserTypeEnum;
@@ -94,7 +95,7 @@ class UserService
         return PropertyAdvertisersDTO::new($user);
     }
 
-    public function update(int $id, UserDTO $user, ?string $description): void
+    public function update(int $id, UpdateFormatDataDTO $user, ?string $description): void
     {
         if($user->type == UserTypeEnum::CLIENT->value) {
             $this->userRepository->update($id, $user);
