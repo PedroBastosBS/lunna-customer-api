@@ -15,7 +15,6 @@ Route::get('{id}', [UserController::class, 'findUserById']);
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/finalization/{id}', [UserController::class, 'completeRegistration']);
     Route::put('rating/{userId}', [UserController::class, 'ratingUpdate']);
-    Route::get('{id}', [UserController::class, 'findUserById']);
     Route::put('/{id}', [UserController::class, 'update']);
 });
 Route::middleware([AuthWithApiKey::class])->group(function () {

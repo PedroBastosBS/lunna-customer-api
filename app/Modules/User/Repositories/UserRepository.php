@@ -56,7 +56,7 @@ class UserRepository
         return $this->user->from('users as u')
             ->join('brokers as b', 'b.user_id', 'u.id')
             ->where('u.type', UserTypeEnum::ADVERTISER->value)
-            ->select(['u.name as name', 'u.profile', 'b.description', 'b.rating'])
+            ->select(['u.id as userId','u.name as name', 'u.profile', 'b.description', 'b.rating'])
             ->orderBy('b.rating', 'DESC')
             ->limit(6)
             ->get();

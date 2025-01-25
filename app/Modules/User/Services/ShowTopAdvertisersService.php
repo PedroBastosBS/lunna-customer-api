@@ -19,10 +19,11 @@ class ShowTopAdvertisersService implements ShowTopAdvertisersUseCase
     {
         return $this->userRepository->showTopAdvertisers()->map(function($advertise){
             return ShowTopAdvertisersPresentationDTO::new(
-                    $advertise->name,
-                    $advertise->profile,
-                    $advertise->description,
-                    $advertise->rating
+                $advertise->userId,
+                $advertise->name,
+                $advertise->profile,
+                $advertise->description,
+                $advertise->rating
             );
         });
     }
