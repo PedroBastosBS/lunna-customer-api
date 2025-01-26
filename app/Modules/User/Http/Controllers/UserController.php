@@ -22,6 +22,7 @@ use App\Modules\User\UseCases\ShowTopAdvertisersUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -124,6 +125,23 @@ class UserController extends Controller
             return response()->json($this->userService->update($id, UpdateFormatDataDTO::new($request),$request->get('description')), Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function healthCheck() {
+        try {
+            DB::connection()->getPdo();
+            return response()->json([
+                'database' => 'Connected',
+                'status' => 'healthy'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Application online',
+                'database' => 'Not connected',
+                'error' => $e->getMessage(),
+                'status' => 'unhealthy'
+            ], 503);
         }
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Middleware\AuthWithApiKey;
 use App\Modules\User\Http\Controllers\UserController;
 
+Route::get('/health', [UserController::class, 'healthCheck']);
 Route::post('/', [UserController::class, 'save']);
 Route::post('/reset-password', [UserController::class, 'resetPasswordNotification']);
 Route::post('/reset', [UserController::class, 'passwordReset']);
