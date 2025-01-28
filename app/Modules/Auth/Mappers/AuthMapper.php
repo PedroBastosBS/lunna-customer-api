@@ -16,7 +16,7 @@ class AuthMapper
         $dto->email = $user->email;
         $dto->profile = $awsS3Manager->preSignUrl($user->profile);
         $dto->registration_completed = $user->registration_completed;
-        $dto->type = $user->type === UserTypeEnum::CLIENT->value ? 'CLIENT' : 'ADVERTISER';
+        $dto->type = $user->type == UserTypeEnum::CLIENT->value ? 'CLIENT' : 'ADVERTISER';
         return $dto;
     }
 }
