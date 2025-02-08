@@ -36,17 +36,18 @@ class UserService
         return UserMapper::toPresentation($user);
     }
 
-    public function resetPasswordNotification(string $email): string
+    public function resetPasswordNotification(string $email)
     {
         $user = $this->userRepository->findUserByEmail($email);
+        if(empty($user)) {
+            throw UserNotFoundException::new();
+        }
         $token = Password::createToken($user);
         $url = env('APP_WEB').'/home?open-password-recovery=true&token='.$token.'&email='.$user->email;
-        if(empty($user)) {
-           throw UserNotFoundException::new();
-        }
-        Mail::to($email)
-            ->send(new PasswordResetMail( $user->name, $url));
-        return UserInteractionMessagesEnum::SEND_EMAIL_SUCCESS->value;
+
+        return Mail::to('fabi.tavares1@gmail.com')
+            ->send(new PasswordResetMail( $user->name, $url))
+            ->getMessageId();
     }
     public function resetPassword(ResetPasswordDTO $resetPasswordDTO): string
     {
@@ -91,7 +92,7 @@ class UserService
         if(empty($user)) {
             throw new Exception('Usuário não foi encontrado.');
         }
-    
+
         return PropertyAdvertisersDTO::new($user);
     }
 

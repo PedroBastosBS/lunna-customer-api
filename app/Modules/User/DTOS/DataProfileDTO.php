@@ -8,8 +8,8 @@ final class DataProfileDTO
 {
     public string $name;
     public string $email;
-    public string $phone;    
-    public string $document;
+    public string $phone;
+    public ?string $document = null;
     public ?string $description = null;
     public string $registration_completed;
     public ?string $rating = null;

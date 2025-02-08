@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     public function __construct(
-        private UserService $userService, 
+        private UserService $userService,
         private CompleteRegistrationUseCase $completeRegistrationUseCase,
         private ShowTopAdvertisersUseCase $showTopAdvertisersUseCase,
         private BrokerRatingService $brokerRatingService,
@@ -93,8 +93,9 @@ class UserController extends Controller
         }
     }
 
-    public function findUserById(int $id): JsonResponse
+    public function findUserById(mixed $id): JsonResponse
     {
+        dd($id);
         try {
             return response()->json($this->userService->findUserById($id), Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
