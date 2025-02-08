@@ -31,14 +31,14 @@ class UserRepository
     {
         return $this->user->where('email', $email)->first();
     }
-    public function findUserById(int $id): ?User
+    public function findUserById($id): ?User
     {
         return $this->user->from('users as u')
                     ->leftJoin('brokers as br', 'u.id', '=', 'br.user_id')
                     ->select('u.name','u.facebook', 'u.document','br.description', 'br.rating', 'u.phone', 'u.email', 'u.instagram', 'u.profile', 'u.registration_completed')
                     ->where('u.id', $id)
                     ->first();
-                
+
     }
     public function completeRegistration(int $id, UserDTO $userDTO): User
     {

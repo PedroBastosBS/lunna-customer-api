@@ -93,7 +93,7 @@ class UserController extends Controller
         }
     }
 
-    public function findUserById(mixed $id): JsonResponse
+    public function findUserById($id): JsonResponse
     {
         try {
             return response()->json($this->userService->findUserById($id), Response::HTTP_OK);

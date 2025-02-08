@@ -78,7 +78,7 @@ class UserService
         return UserInteractionMessagesEnum::PASSWORD_SUCCESS_RESET->value;
     }
 
-    public function findUserById(int $id): ?DataProfileDTO
+    public function findUserById($id): ?DataProfileDTO
     {
         $user = $this->userRepository->findUserById($id);
         if(empty($user)) {
