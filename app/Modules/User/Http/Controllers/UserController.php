@@ -95,7 +95,6 @@ class UserController extends Controller
 
     public function findUserById(mixed $id): JsonResponse
     {
-        dd($id);
         try {
             return response()->json($this->userService->findUserById($id), Response::HTTP_OK);
         } catch(UserNotFoundException $e) {
