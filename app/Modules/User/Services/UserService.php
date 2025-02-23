@@ -43,7 +43,7 @@ class UserService
             throw UserNotFoundException::new();
         }
         $token = Password::createToken($user);
-        $url = env('APP_WEB').'/home?open-password-recovery=true&token='.$token.'&email='.$user->email;
+        $url = env('APP_WEB').'/site?open-password-recovery=true&token='.$token.'&email='.$user->email;
 
         return Mail::to('fabi.tavares1@gmail.com')
             ->send(new PasswordResetMail( $user->name, $url))
