@@ -44,7 +44,7 @@ class CompleteResgistrationRequest extends FormRequest
                 'sometimes',
                 'string',
             ],
-            'description' => 'sometimes|required|string',
+            'description' => 'sometimes|string',
             'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
