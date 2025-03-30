@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Modules\User\Services;
@@ -28,7 +29,6 @@ class UserService
     {
         $this->userRepository = $userRepository;
         $this->brokerRepository = $brokerRepository;
-
     }
     public function save(UserDTO $user): UserMapper
     {
@@ -36,43 +36,42 @@ class UserService
         return UserMapper::toPresentation($user);
     }
 
-    public function resetPasswordNotification(string $email)
+    public function resetPasswordNotification(string $email): void
     {
         $user = $this->userRepository->findUserByEmail($email);
-        if(empty($user)) {
+        if (empty($user)) {
             throw UserNotFoundException::new();
         }
         $token = Password::createToken($user);
-        $url = env('APP_WEB').'/site?open-password-recovery=true&token='.$token.'&email='.$user->email;
+        $url = env('APP_WEB') . '/site?open-password-recovery=true&token=' . $token . '&email=' . $user->email;
 
-        return Mail::to('fabi.tavares1@gmail.com')
-            ->send(new PasswordResetMail( $user->name, $url))
-            ->getMessageId();
+        Mail::to($user->email)
+            ->send(new PasswordResetMail($user->name, $url));
     }
     public function resetPassword(ResetPasswordDTO $resetPasswordDTO): string
     {
-        if ($resetPasswordDTO->password!==$resetPasswordDTO->passwordConfirmation) {
+        if ($resetPasswordDTO->password !== $resetPasswordDTO->passwordConfirmation) {
             throw PasswordNotMatchException::new();
         }
         $user = $this->userRepository->findUserByEmail($resetPasswordDTO->email);
 
-        if(empty($user)) {
-           throw UserNotFoundException::new();
+        if (empty($user)) {
+            throw UserNotFoundException::new();
         }
-       $resetPassword = Password::reset(
-        [
-            'email' => $resetPasswordDTO->email,
-            'password' => $resetPasswordDTO->password,
-            'password_confirmation' => $resetPasswordDTO->passwordConfirmation,
-            'token' => $resetPasswordDTO->token,
-        ],
-        function ($user, $password) {
-            $user->forceFill([
-                'password' => bcrypt($password)
-            ])->save();
+        $resetPassword = Password::reset(
+            [
+                'email' => $resetPasswordDTO->email,
+                'password' => $resetPasswordDTO->password,
+                'password_confirmation' => $resetPasswordDTO->passwordConfirmation,
+                'token' => $resetPasswordDTO->token,
+            ],
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password)
+                ])->save();
             }
         );
-        if($resetPassword != Password::PASSWORD_RESET) {
+        if ($resetPassword != Password::PASSWORD_RESET) {
             throw TokenExpirationOrInvalidException::new();
         }
         return UserInteractionMessagesEnum::PASSWORD_SUCCESS_RESET->value;
@@ -81,7 +80,7 @@ class UserService
     public function findUserById($id): ?DataProfileDTO
     {
         $user = $this->userRepository->findUserById($id);
-        if(empty($user)) {
+        if (empty($user)) {
             throw new Exception('Usuário não foi encontrado.');
         }
         return UserMapper::toDataProfilePresentation($user);
@@ -89,7 +88,7 @@ class UserService
     public function findAdvertisersByProperty(int $id): ?PropertyAdvertisersDTO
     {
         $user = $this->userRepository->findUserById($id);
-        if(empty($user)) {
+        if (empty($user)) {
             throw new Exception('Usuário não foi encontrado.');
         }
 
@@ -98,7 +97,7 @@ class UserService
 
     public function update(int $id, UpdateFormatDataDTO $user, ?string $description): void
     {
-        if($user->type == UserTypeEnum::CLIENT->value) {
+        if ($user->type == UserTypeEnum::CLIENT->value) {
             $this->userRepository->update($id, $user);
         } else {
             $this->userRepository->update($id, $user);

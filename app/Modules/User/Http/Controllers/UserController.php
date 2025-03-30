@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Modules\User\Http\Controllers;
@@ -31,8 +32,7 @@ class UserController extends Controller
         private CompleteRegistrationUseCase $completeRegistrationUseCase,
         private ShowTopAdvertisersUseCase $showTopAdvertisersUseCase,
         private BrokerRatingService $brokerRatingService,
-        )
-    {
+    ) {
         $this->userService = $userService;
         $this->completeRegistrationUseCase = $completeRegistrationUseCase;
         $this->showTopAdvertisersUseCase = $showTopAdvertisersUseCase;
@@ -71,8 +71,9 @@ class UserController extends Controller
     public function resetPasswordNotification(PasswordResetRequest $request): JsonResponse
     {
         try {
-            return response()->json(['message' => $this->userService->resetPasswordNotification($request->get('email'))], Response::HTTP_OK);
-        } catch(UserNotFoundException $e) {
+            $this->userService->resetPasswordNotification($request->get('email'));
+            return response()->json(['message' => 'Um e-mail com o link para a recuperação de senha foi enviado com sucesso. Verifique sua caixa de entrada e siga as instruções para redefinir sua senha. Se você não receber o e-mail em alguns minutos, verifique também a pasta de spam ou lixo eletrônico.'], Response::HTTP_OK);
+        } catch (UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -82,11 +83,11 @@ class UserController extends Controller
     {
         try {
             return response()->json($this->userService->resetPassword(ResetPasswordDTO::new($request)), Response::HTTP_OK);
-        } catch(UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
-        } catch(TokenExpirationOrInvalidException $e) {
+        } catch (TokenExpirationOrInvalidException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        } catch(PasswordNotMatchException $e) {
+        } catch (PasswordNotMatchException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -97,7 +98,7 @@ class UserController extends Controller
     {
         try {
             return response()->json($this->userService->findUserById($id), Response::HTTP_OK);
-        } catch(UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
@@ -107,7 +108,7 @@ class UserController extends Controller
         try {
             $this->brokerRatingService->execute($userId, $request->get('rating'));
             return response()->json(null, Response::HTTP_OK);
-        } catch(UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
@@ -115,20 +116,21 @@ class UserController extends Controller
     {
         try {
             return response()->json($this->userService->findAdvertisersByProperty($userId), Response::HTTP_OK);
-        } catch(UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
     public function update(Request $request, int $id): JsonResponse
     {
         try {
-            return response()->json($this->userService->update($id, UpdateFormatDataDTO::new($request),$request->get('description')), Response::HTTP_OK);
-        } catch(UserNotFoundException $e) {
+            return response()->json($this->userService->update($id, UpdateFormatDataDTO::new($request), $request->get('description')), Response::HTTP_OK);
+        } catch (UserNotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
-    public function healthCheck() {
+    public function healthCheck()
+    {
         try {
             DB::connection()->getPdo();
             return response()->json([
